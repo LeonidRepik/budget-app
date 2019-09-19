@@ -82,7 +82,7 @@ var UIController = (function(){
 
                 type : document.querySelector(DOMtrings.inputType).value,
                 description : document.querySelector(DOMtrings.inputDesription).value,
-                value : document.querySelector(DOMtrings.inputValue).value
+                value : parseFloat(document.querySelector(DOMtrings.inputValue).value)
 
             };
         },
@@ -126,11 +126,16 @@ var UIController = (function(){
 
         },
 
-        clearFields:(){
+        clearFields:function(){
             var fields,fieldsArray;
             fields = document.querySelectorAll(DOMtrings.inputDesription + ', ' + DOMtrings.inputValue);
             // List to the array with scope chaine from array prototype.
            fieldsArray = Array.prototype.slice.call(fields);
+
+           fieldsArray.forEach( function(current, index, array){
+                current.value = "";
+                fieldsArray[0].focus();
+           });
         },
         getDOMstrings: function(){
             return DOMtrings;
@@ -154,25 +159,41 @@ var controller = (function(budgetCtrl, UICtrl){
         });
     };
 
+    var updateBudget = function(){
+
+    // 1. Calculate the budget
+
+    // 2. return the budget
+
+    // 3. Display the budget on the UI
+
+    }
 
     var ctrlAddItem = function(){
         var input,newItem;
 
     // 1. Get the field input data
-
         input = UIController.getinput();
-    
-    // 2. Add the item to the budget
+        
+        if(input.description !=="" && !isNaN(input.value) && input.value > 0){
+            // 2. Add the item to the budget
+            newItem = budgetController.addItem(input.type, input.description,input.value);
 
-        newItem = budgetController.addItem(input.type, input.description,input.value);
+
+            // 3. Add the item to the UI
+            UICtrl.addListItem(newItem, input.type);
 
 
-    // 3. Add the item to the UI
-    UICtrl.addListItem(newItem, input.type);
+            // 4. CLear Fields
+            UICtrl.clearFields();
 
-    // 4. Calculate the budget
+            // 5. Calculate and update the budget
+            updateBudget();
+        }else{
+            alert('Pls enter a number');
+        }
+  
 
-    // 5. Display the budget on the UI
 };
 
     return{
