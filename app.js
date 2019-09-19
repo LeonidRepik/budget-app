@@ -125,6 +125,13 @@ var UIController = (function(){
 
 
         },
+
+        clearFields:(){
+            var fields,fieldsArray;
+            fields = document.querySelectorAll(DOMtrings.inputDesription + ', ' + DOMtrings.inputValue);
+            // List to the array with scope chaine from array prototype.
+           fieldsArray = Array.prototype.slice.call(fields);
+        },
         getDOMstrings: function(){
             return DOMtrings;
         }
